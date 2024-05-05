@@ -1,0 +1,32 @@
+name: bnx
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+
+    - name: Build and publish
+      run: |
+        python setup.py sdist bdist_wheel
+        python -m twine upload --repository pypi dist/*
+      env:
+        TWINE_USERNAME: ${{ secrets.jaxxx }}
+        TWINE_PASSWORD: ${{ secrets.Abdellatif77500 }}
